@@ -66,15 +66,35 @@
 	$userid = $count[0] ;
 	
 
-	//新增選項資料(不包含圖片部分)
-	$sql =	"insert into Choice (QuestionId,Title,Content) values".
-			" (".$questionid.",'".$choice[0]->title."','".$choice[0]->content."') " ;	
+	//新增選項資料
+	$i=0 ;
 
-	for($i=1 ; $i<count($choice) ; $i++) {
-		$sql =	$sql." , (".$questionid.",'".$choice[$i]->title."','".$choice[$i]->content."') " ;
+	$sql =	"insert into Choice (QuestionId,Title,Content,PicUrl) values".
+			" (".$questionid.",'".$choice[$i]->title."','".$choice[$i]->content."'"  ;
+
+	if( !empty($choice[$i]->pic) && !empty($choice[$i]->extension) ) {
+		$sql = $sql." , '/choice/".$questionid."_".$i.".".$choice[$i]->extension."'" ;
+	}
+	else {
+		$sql = $sql." , NULL" ;
 	}
 
-	echo $sql."<br/>" ;
+	$sql = $sql.")" ;
+	
+
+	for($i=1 ; $i<count($choice) ; $i++) {
+		$sql =	$sql." , (".$questionid.",'".$choice[$i]->title."','".$choice[$i]->content."'" ;
+
+		if( !empty($choice[$i]->pic) && !empty($choice[$i]->extension) ) {
+			$sql = $sql." , '/choice/".$questionid."_".$i.".".$choice[$i]->extension."'" ;
+		}
+		else {
+			$sql = $sql." , NULL" ;
+		}
+		$sql = $sql.")" ;
+	}
+
+	//echo $sql."<br/>" ;
 
 	if( !mysql_db_query($database,$sql,$link) ) {
 		$arr = array('code'=>'0099','message'=>'unknow error') ;
@@ -83,12 +103,32 @@
 		return ;
 	}
 
-	//待補
 
+	//如果choice有帶,pic和extension參數則新增大頭圖片
+	for($i=0 ; $i<count($choice) ; $i++) {
 
+		if( !empty($choice[$i]->pic) && !empty($choice[$i]->extension) ) {
+
+			$pic =  base64_decode($choice[$i]->pic) ;
+
+			$handle = @fopen("./choice/".$questionid."_".$i.".".$choice[$i]->extension,"wb") ;
+
+			//假如讀檔失敗回傳異常錯誤
+			if(!$handle) {
+				$arr = array('code'=>'0099','message'=>'unknow error') ;
+				echo json_encode($arr) ;
+				include("./db/db_close.php") ;
+				return ;
+			}
+			
+			fwrite($handle,$pic) ;
+			fclose($handle);
+
+		}
+	}
 
 	//回傳新增選項完成
-	$arr = array('code'=>'0000','message'=>'upload  success') ;
+	$arr = array('code'=>'0000','message'=>'choice upload success') ;
 
 	echo json_encode($arr)  ;	
 

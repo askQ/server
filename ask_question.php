@@ -47,7 +47,7 @@
 	$sql = "select UserId"." from User where Account='"
 		.$account."' and SessionId='".$data->{'sessionid'}."'" ;
 
-	echo $sql."<br/>" ;
+	//echo $sql."<br/>" ;
 
 	$result = mysql_db_query($database,$sql,$link) ;
 
@@ -73,7 +73,7 @@
 			" ,BuildTime=now() " ;
 
 	if( !empty($data->{'content'}) ) {
-		$sql = $sql." ,Content=".$data->{'content'} ;
+		$sql = $sql." ,Content='".$data->{'content'}."'" ;
 	}
 
 	if( !empty($data->{'endtime'}) ) {
@@ -111,7 +111,9 @@
 	
 	$sql =	"insert into QuestionType (TypeId,QuestionId) values " ;
 
-	$sql =  $sql." (".trim($type_arr[0]).",".$questionid.")" ;
+	$i = 0 ;
+
+	$sql =  $sql." (".trim($type_arr[$i]).",".$questionid.")" ;
 
 	$i = 1 ;
 
@@ -132,7 +134,8 @@
 
 
 	//回傳註冊成功訊息
-	$arr = array('code'=>'0000','message'=>'question  success',) ;
+	$arr = array('code'=>'0000','message'=>'question success',
+			'questionid'=>$questionid) ;
 
 	echo json_encode($arr)  ;	
 

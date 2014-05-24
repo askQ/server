@@ -84,6 +84,10 @@
 		$sql = $sql.", BirthTime='".$data->{'birthtime'}."'" ;
     }
 
+	if( !empty($data->{'pic'}) && !empty($data->{'extension'}) ) {
+		$sql=$sql.",PicUrl='"."/image/".$account.".".$data->{'extension'}."'" ;
+	}
+
 	$sql = $sql." where UserId=".$userid ;
 
 	//echo $sql."<br/>" ;

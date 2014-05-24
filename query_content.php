@@ -67,7 +67,7 @@
 					"choiceid"=>$row['ChoiceId'] ,
 					"title"=>$row['Title'] ,
 					"content"=>$row['Content'],
-					"picurl"=>$row['PicUrl']
+					"picurl"=>urlencode(($row['PicUrl']))
 			) ;
 			$num++ ;
 	}

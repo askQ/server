@@ -45,7 +45,7 @@
 	$sql = "select UserId"." from User where Account='"
 		.$account."' and SessionId='".$data->{'sessionid'}."'" ;
 
-	echo $sql."<br/>" ;
+	//echo $sql."<br/>" ;
 
 	$result = mysql_db_query($database,$sql,$link) ;
 
@@ -70,7 +70,7 @@
 		   	" where QuestionId=".$questionid.
 			" and UserId=".$userid	;
 
-	echo $sql."<br/>" ;
+	//echo $sql."<br/>" ;
 
 	if( !mysql_db_query($database,$sql,$link) ) {
 	    $arr = array('code'=>'0099','message'=>'unknow error') ;

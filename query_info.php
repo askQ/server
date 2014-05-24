@@ -80,7 +80,7 @@
 	while ($row = mysql_fetch_assoc($result)) {
 		    $question[$num] = Array(
 					"questioinid"=>$row['QuestionId'] ,
-					"title"=>$row['Title'] ,
+					"title"=>urlencode($row['Title']) ,
 					"buildtime"=>$row['BuildTime'] ,
 					"finishtime"=>$row['FinishTime'] 
 			) ;
@@ -90,8 +90,7 @@
 
 	//回傳註冊成功訊息
 	$arr = array('code'=>'0000','message'=>'register success',
-			'account'=>$account,'name'=>urlencode($name),'picurl'=>$picurl,
-			'question'=>$question) ;
+			'account'=>$account,'name'=>urlencode($name),'picurl'=>urlencode($picurl),'question'=>$question) ;
 
 	echo json_encode($arr)  ;	
 

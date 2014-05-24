@@ -34,7 +34,7 @@
 			" QuestionType.QuestionId=Question.QuestionId".
 			" left join User on".
 			" User.UserId=Question.UserId ".						
-			" where 1=1 " ;
+			" where Question.IsValid=1 " ;
 
 	if( !empty($data->{'typeid'}) ) {
 		$sql = $sql." and QuestionType.TypeId in('".

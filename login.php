@@ -64,7 +64,7 @@
 			$data->{'type'}."' and Password='".$data->{'password'}."'" ;
 	
 
-	echo $sql."<br/>" ;
+	//echo $sql."<br/>" ;
 
 	
 	if( !mysql_db_query($database,$sql,$link) ) {

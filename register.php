@@ -60,10 +60,17 @@
 
 	//新增DB資料
 	$sql = "insert into User (Account,Password,AccountType,UserName,".
-			"Sex,Email,BuildTime,BirthTime,SessionId) values ('"
+			"Sex,Email,BuildTime,BirthTime,SessionId,PicUrl) values ('"
 			.$data->{'account'}."','".$data->{'password'}."','01','"
 			.$data->{'name'}."','".$data->{'sex'}."','".$data->{'email'}
-			."',now(),'".$data->{'birthtime'}."','".$sessionid."')" ;
+			."',now(),'".$data->{'birthtime'}."','".$sessionid."'" ;
+
+	if( !empty($data->{'pic'}) && !empty($data->{'extension'}) ) {
+		$sql = $sql." , '"."/image/".$data->{'account'}.".".$data->{'extension'}."')" ;
+	}
+	else {
+		$sql = $sql.", NULL)" ;
+	}
 
 	//echo $sql."<br/>" ;
 	
@@ -75,7 +82,7 @@
 	}
 	
 
-	//若有帶pic和extension參數則新增大頭圖片,缺少更新資料庫路徑(待補)
+	//若有帶pic和extension參數則新增大頭圖片
 	if( !empty($data->{'pic'}) && !empty($data->{'extension'}) ) {
 
 		$pic =  base64_decode($data->{'pic'}) ;
